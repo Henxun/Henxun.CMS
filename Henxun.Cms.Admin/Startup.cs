@@ -17,6 +17,7 @@ using Autofac;
 using Henxun.Cms.Repository.SqlServer;
 using Microsoft.Extensions.Logging;
 using Henxun.Cms.Services;
+using System.IO;
 
 namespace Henxun.Cms.Admin
 {
@@ -50,6 +51,17 @@ namespace Henxun.Cms.Admin
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddCors(option =>
+            {
+                option.AddPolicy("111", builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                });
             });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -88,7 +100,13 @@ namespace Henxun.Cms.Admin
             }); 
             //DI了AutoMapper中需要用到的服务，其中包括AutoMapper的配置类 Profile
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddSingleton<ScheduleCenter>();            
+            services.AddSingleton<ScheduleCenter>();
+            services.AddSwaggerGen(option =>
+            {
+                option.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "HenxunCms", Version = "v1" });
+            });
+
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -110,10 +128,19 @@ namespace Henxun.Cms.Admin
 
             app.UseRouting();
 
+            app.UseCors("111");
+
             app.UseAuthorization();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "default", template: "{controller=Account}/{action=Index}/{id?}");
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(option =>
+            {
+                option.SwaggerEndpoint("v1/swagger.json", "HenxunCmsApi");
             });
 
         }

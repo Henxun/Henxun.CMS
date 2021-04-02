@@ -34,6 +34,7 @@ namespace Henxun.Cms.Admin.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult GetCaptchaImage()
         {
             string captchaCode = CaptchaHelper.GenerateCaptchaCode();
@@ -48,7 +49,7 @@ namespace Henxun.Cms.Admin.Controllers
             HttpContext.Session.Remove(CaptchaCodeSessionName);
             return isValid;
         }
-        [HttpPost, ValidateAntiForgeryToken, Route("Account/SignIn")]
+        [HttpPost,Route("Account/SignIn")]
         public async Task<string> SignInAsync(LoginModel model)
         {
             BaseResult result = new BaseResult();
@@ -128,11 +129,21 @@ namespace Henxun.Cms.Admin.Controllers
             return JsonHelper.ObjectToJSON(result);
         }
 
-        [Route("Account/SignOut")]
+        [HttpGet, Route("Account/SignOut")]
         public async Task<IActionResult> SignOutAsync()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost,Route("Account/LogIn")]
+        public IActionResult LogIn([FromBody]LoginModel model)
+        {
+            if(model.UserName == "admin" && model.Password == "111111")
+            {
+                return new OkResult();
+            }
+            return new ObjectResult("失败");
         }
     }
 }

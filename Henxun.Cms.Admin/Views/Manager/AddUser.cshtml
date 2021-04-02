@@ -1,0 +1,66 @@
+﻿@using Henxun.Cms.ViewModels
+@model Henxun.Cms.ViewModels.ManagerAddOrModifyModel
+@{
+    Layout = null;
+    var roleList = ViewBag.RoleList as IEnumerable<SelectListItem>;
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="~/css/public.css" media="all" />
+</head>
+<body style="padding:10px">
+    @using (Html.BeginForm("AddUserByModel", "Manager", FormMethod.Post, new { Id = "addUser", Class = "layui-form" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.UserName, new { Class = "layui-form-label" })
+            <div class="layui-input-block">
+                @Html.EditorFor(m => m.UserName, new { Class = "layui-input" })
+            </div>
+        </div>
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.RoleId, new { Class = "layui-form-label" })
+            <div class="layui-input-block">
+                @Html.DropDownListFor(m => m.RoleId, roleList)
+            </div>
+        </div>
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.NickName, new { Class = "layui-form-label" })
+            <div class="layui-input-block">
+                @Html.EditorFor(m => m.NickName, new { Class = "layui-input" })
+            </div>
+        </div>
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.Email, new { Class = "layui-form-label" })
+            <div class="layui-input-block">
+                @Html.EditorFor(m => m.Email, new { Class = "layui-input" })
+            </div>
+        </div>
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.Mobile, new { Class = "layui-form-label" })
+            <div class="layui-input-block">
+                @Html.EditorFor(m => m.Mobile, new { @type = "number", Class = "layui-input" })
+            </div>
+        </div>
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.Remark, new { @class = "layui-form-label" })
+            <div class="layui-input-block">
+                @Html.TextAreaFor(m => m.Remark, new { @placeholder = "请输入内容", @class = "layui-textarea" })
+            </div>
+        </div>
+        <div class="layui-form-item layui-right">
+            <button class="layui-btn" lay-submit lay-filter="addUser">确定</button>
+        </div>
+    }
+    <script type="text/javascript" src="~/layui/layui.js"></script>
+    <script>
+        layui.use('form', function () {
+            var form = layui.form;
+            form.on('submit(addUser)', function (data) {
+                console.info(data);
+            })
+        })
+    </script>
+</body>
+</html>

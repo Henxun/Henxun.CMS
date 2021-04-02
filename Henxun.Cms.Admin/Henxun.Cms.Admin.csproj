@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -7,6 +7,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\bin\Debug\HenxunCmsApi.xml</DocumentationFile>
+    <OutputPath>..\bin\Debug\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,18 +17,36 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentValidation" Version="9.5.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Henxun.Cms.Core\Henxun.Cms.Core.csproj" />
-    <ProjectReference Include="..\Henxun.Cms.IServices\Henxun.Cms.IServices.csproj" />
-    <ProjectReference Include="..\Henxun.Cms.Quartz\Henxun.Cms.Quartz.csproj" />
-    <ProjectReference Include="..\Henxun.Cms.Repository.SqlServer\Henxun.Cms.Repository.SqlServer.csproj" />
-    <ProjectReference Include="..\Henxun.Cms.Services\Henxun.Cms.Services.csproj" />
-    <ProjectReference Include="..\Henxun.Cms.ViewModels\Henxun.Cms.ViewModels.csproj" />
+    <ProjectReference Include="..\Henxun.Cms.Core\Henxun.Cms.Core.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Henxun.Cms.IServices\Henxun.Cms.IServices.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Henxun.Cms.Quartz\Henxun.Cms.Quartz.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Henxun.Cms.Repository.SqlServer\Henxun.Cms.Repository.SqlServer.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Henxun.Cms.Services\Henxun.Cms.Services.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Henxun.Cms.ViewModels\Henxun.Cms.ViewModels.csproj">
+      <Private>true</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\icons\" />
   </ItemGroup>
 
 </Project>

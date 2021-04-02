@@ -35,7 +35,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Henxun.Cms.Site", "Henxun.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Henxun.Cms.Admin", "Henxun.Cms.Admin\Henxun.Cms.Admin.csproj", "{3BFCDF98-1977-4D7E-8FB1-0EE92B8808F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Henxun.Cms.Quartz", "Henxun.Cms.Quartz\Henxun.Cms.Quartz.csproj", "{205340DD-2E94-4B69-9B02-912085EAD0D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Henxun.Cms.Quartz", "Henxun.Cms.Quartz\Henxun.Cms.Quartz.csproj", "{205340DD-2E94-4B69-9B02-912085EAD0D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D521E455-18DA-4CEA-954C-1C00301879DD}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

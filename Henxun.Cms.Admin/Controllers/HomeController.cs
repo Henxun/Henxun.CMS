@@ -2,22 +2,27 @@
 using Henxun.Cms.Core.Extensions;
 using Henxun.Cms.Core.Helper;
 using Henxun.Cms.IServices;
+using Henxun.Cms.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Henxun.Cms.Admin.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IManagerRoleService _managerRoleService;
+        private readonly IManagerService _managerService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IManagerRoleService _managerRoleService;
 
-        public HomeController(IManagerRoleService managerRoleService, IHttpContextAccessor httpContextAccessor)
+        public HomeController(IManagerService managerService, IManagerRoleService managerRoleService, IHttpContextAccessor httpContextAccessor)
         {
+            _managerService = managerService;
             _managerRoleService = managerRoleService;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -61,5 +66,6 @@ namespace Henxun.Cms.Admin.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

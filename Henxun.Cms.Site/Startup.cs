@@ -37,7 +37,7 @@ namespace Henxun.Cms.Site
             {
                 option.IdleTimeout = TimeSpan.FromMinutes(15);
                 option.Cookie.HttpOnly = true;
-            });    
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
