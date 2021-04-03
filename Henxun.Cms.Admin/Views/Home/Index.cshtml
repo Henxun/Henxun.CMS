@@ -1,4 +1,5 @@
 ﻿@{ Layout = null; }
+@using Henxun.Cms.ViewModels
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,15 +69,16 @@
                 </div>*@
             <div class="navBar layui-side-scroll" id="navBar">
                 <ul class="layui-nav layui-nav-tree">
+
                     <li class="layui-nav-item site-demo-active layui-this" data-type="tabAdd" data-url="/Home/Main/" data-id="main" id="main" data-name="后台首页">
-                        <a href="javascript:;"><i class="layui-icon">&#xe68e;</i><cite>后台首页</cite></a>
+                        <a href="javascript:;">@*<i class="layui-icon">&#xe68e;</i>*@<cite>后台首页</cite></a>
                     </li>
-                    <li class="layui-nav-item site-demo-active" data-type="tabAdd"  data-url="/Manager/UserManagement/" data-id="usermanagement" data-name="用户管理">
-                        <a href="javascript:;"><i class="layui-icon">&#xe770;</i><cite>用户管理</cite></a>
-                    </li>
-                    <li class="layui-nav-item site-demo-active" data-type="tabAdd"  data-url="/Home/Main/" data-id="rolemanagement" data-name="角色管理">
-                        <a href="javascript:;"><i class="layui-icon">&#xe612;</i><cite>角色管理</cite></a>
-                    </li>
+                    @foreach (var item in ViewData["Menus"] as IEnumerable<MenuNavView>)
+                    {
+                        <li class="layui-nav-item site-demo-active" data-type="tabAdd" data-url="@item.LinkUrl" data-id="@item.Name" data-name="@item.DisplayName">
+                            <a href="javascript:;"><i class="layui-icon"></i><cite>@item.DisplayName</cite></a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

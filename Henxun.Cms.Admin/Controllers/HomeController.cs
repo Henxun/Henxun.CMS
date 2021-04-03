@@ -37,7 +37,9 @@ namespace Henxun.Cms.Admin.Controllers
         {
             ViewData["NickName"] = _httpContextAccessor.HttpContext.Session.GetString("NickName");
             ViewData["Avatar"] = _httpContextAccessor.HttpContext.Session.GetString("Avatar");
-
+            var role = _httpContextAccessor.HttpContext.Session.GetInt32("RoleId");
+            if(role.HasValue)
+                ViewData["Menus"] = _managerRoleService.GetMenusByRoleId(role.Value);
             return View();
         }
 

@@ -31,6 +31,7 @@ using Henxun.Cms.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 /**
 *┌──────────────────────────────────────────────────────────────┐
 *│　描    述：后台管理员角色                                                    
@@ -199,6 +200,41 @@ namespace Henxun.Cms.Services
                 menuNavViewList.Add(navView);
             });
             return menuNavViewList;
+        }
+
+        public async Task<BaseResult> DeleteIdsAsync(int[] roleId)
+        {
+            var result = new BaseResult();
+            if (roleId.Count() == 0)
+            {
+                result.ResultCode = ResultCodeAddMsgKeys.CommonModelStateInvalidCode;
+                result.ResultMsg = ResultCodeAddMsgKeys.CommonModelStateInvalidMsg;
+
+            }
+            else
+            {
+                var count = await _repository.DeleteLogicalAsync(roleId);
+                if (count > 0)
+                {
+                    //成功
+                    result.ResultCode = ResultCodeAddMsgKeys.CommonObjectSuccessCode;
+                    result.ResultMsg = ResultCodeAddMsgKeys.CommonObjectSuccessMsg;
+                }
+                else
+                {
+                    //失败
+                    result.ResultCode = ResultCodeAddMsgKeys.CommonExceptionCode;
+                    result.ResultMsg = ResultCodeAddMsgKeys.CommonExceptionMsg;
+                }
+            }
+            return result;
+        }
+
+        public ManagerRoleListModel Get(int id)
+        {
+            var managerRole = _repository.Get(id);
+            
+            return _mapper.Map<ManagerRoleListModel>(managerRole);
         }
     }
 }

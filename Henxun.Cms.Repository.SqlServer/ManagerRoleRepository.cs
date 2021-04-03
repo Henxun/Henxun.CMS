@@ -101,6 +101,7 @@ namespace Henxun.Cms.Repository.SqlServer
             string insertPermissionSql = @"INSERT INTO RolePermission
                 (RoleId, MenuId, Permission)
 VALUES   (@RoleId,@MenuId, '')";
+            _dbConnection.Open();
             using (var tran = _dbConnection.BeginTransaction())
             {
                 try
@@ -124,8 +125,13 @@ VALUES   (@RoleId,@MenuId, '')";
                     tran.Rollback();
                     throw ex;
                 }
+                finally
+                {
+                    _dbConnection.Close();
+                }
 
             }
+
 
             return roleId;
         }
@@ -142,6 +148,7 @@ VALUES   (@RoleId,@MenuId, '')";
                 (RoleId, MenuId, Permission)
 VALUES   (@RoleId,@MenuId, '')";
             string deletePermissionSql = "DELETE FROM RolePermission WHERE RoleId = @RoleId";
+            _dbConnection.Open();
             using (var tran = _dbConnection.BeginTransaction())
             {
                 try

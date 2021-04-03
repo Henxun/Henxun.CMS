@@ -26,6 +26,7 @@
 using Henxun.Cms.Models;
 using Henxun.Cms.ViewModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 /**
 *┌──────────────────────────────────────────────────────────────┐
 *│　描    述：后台管理员角色                                                    
@@ -76,5 +77,20 @@ namespace Henxun.Cms.IServices
         /// <param name="roleId">角色主键</param>
         /// <returns></returns>
         List<MenuNavView> GetMenusByRoleId(int roleId);
+
+        /// <summary>
+        /// 根据id获取
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        ManagerRoleListModel Get(int id);
+
+
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="roleId">主键id数组</param>
+        /// <returns>结果实体</returns>
+        Task<BaseResult> DeleteIdsAsync(int[] roleId);
     }
 }

@@ -29,16 +29,7 @@ namespace Henxun.Cms.Admin.Controllers
             return View();
         }
 
-        /// <summary>
-        /// 用户管理
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult UserManagement()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> GetUsers(string key,int page = 1,int limit = 5)
+        public async Task<IActionResult> Get(string key,int page = 1,int limit = 10)
         {
             var data = await managerService.LoadDataAsync(new ViewModels.ManagerRequestModel() { Key = key, Page = page, Limit = limit});
             if (data.code == 200)
@@ -46,7 +37,7 @@ namespace Henxun.Cms.Admin.Controllers
                 {
                     code = "0",
                     msg = "",
-                    count = data.data.Count,
+                    count = data.count,
                     data = data.data
                 });
             else
@@ -57,37 +48,23 @@ namespace Henxun.Cms.Admin.Controllers
                 });
         }
 
-        public IActionResult AddUser()
+        public IActionResult Add()
         {
             ViewBag.RoleList = Roles;
             return View();
         }
 
-        public async Task<IActionResult> AddUserByModel(ManagerAddOrModifyModel model)
+        public async Task<IActionResult> Post(ManagerAddOrModifyModel model)
         {
             if (ModelState.IsValid)
             {
                 var result = await managerService.AddOrModifyAsync(model);
-                if (result.ResultCode == ResultCodeAddMsgKeys.CommonObjectSuccessCode)
-                {
-                    return new JsonResult(new
-                    {
-                        ResultCode = 200,
-                        ResultMessage = "成功"
-                    });
-                }
-                else
-                {
-                    return new JsonResult(new
-                    {
-                        ResultMessage = "失败"
-                    });
-                }
+                return new JsonResult(result);
             }
             return View(model);
         }
 
-        public IActionResult EditUser(string data)
+        public IActionResult Edit(string data)
         {
             string json = System.Web.HttpUtility.HtmlDecode(data);
             var model = JsonConvert.DeserializeObject<ManagerAddOrModifyModel>(json);
@@ -115,6 +92,11 @@ namespace Henxun.Cms.Admin.Controllers
         {
             var res = await managerService.ChangeLockStatusAsync(new ChangeStatusModel { Id= id,Status = status});
             return new JsonResult(res);
+        }
+
+        public IActionResult RoleManagement()
+        {
+            return View();
         }
     }
 }

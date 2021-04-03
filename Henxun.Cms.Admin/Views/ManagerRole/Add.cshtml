@@ -1,0 +1,74 @@
+﻿@using Henxun.Cms.ViewModels
+@model Henxun.Cms.ViewModels.ManagerRoleAddOrModifyModel
+@addTagHelper *,Henxun.Cms.Admin
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="~/css/public.css" media="all" />
+</head>
+<body style="padding:10px">
+    <form id="addRole" class="layui-form">
+        @Html.AntiForgeryToken()
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.RoleName, new { Class = "layui-form-label" })
+            <div class="layui-input-block">
+                @Html.EditorFor(m => m.RoleName, new { htmlAttributes = new { @class = "layui-input" } })
+            </div>
+        </div>
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.RoleType, new { Class = "layui-form-label" })
+            <div class="layui-input-block">
+                @Html.EditorFor(m => m.RoleType, new { htmlAttributes = new { @class = "layui-input" } })
+            </div>
+        </div>
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.IsSystem, new { Class = "layui-form-label" })
+            <cl-switch asp-for="IsSystem" asp-switch-text="是|否"></cl-switch>
+        </div>
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.MenuIds, new { Class = "layui-form-label" })
+            <div class="layui-input-block">
+                @foreach (var item in ViewBag.Menus as IEnumerable<MenuNavView>)
+                {
+                    <input type="checkbox" name="menuids[]" title="@item.DisplayName" value="@item.Id"/>
+                }
+            </div>
+        </div>
+        <div class="layui-form-item">
+            @Html.LabelFor(m => m.Remark, new { @class = "layui-form-label" })
+            <div class="layui-input-block">
+                @Html.TextAreaFor(m => m.Remark, new { @placeholder = "请输入内容", @class = "layui-textarea" })
+            </div>
+        </div>
+        <div class="layui-form-item layui-right">
+            <button class="layui-btn" lay-submit lay-filter="addRole">确定</button>
+        </div>
+    </form>
+    <script type="text/javascript" src="~/layui/layui.js"></script>
+    <script>
+        layui.use(['form', 'jquery'], function () {
+            var form = layui.form, $ = layui.$;
+            form.on('submit(addRole)', function (data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "/ManagerRole/Post",
+                    data: data.field,
+                    success: function (result) {
+                        layer.msg(result.msg, { icon: 6, area: ['450px', ''], shade: [0.5, '#000', true] });
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);//关闭弹出的子页面窗口
+                        window.parent.location.reload();//写在这里的话是只有提交成功了才刷新那个页面
+                    },
+                    error: function () {
+                        layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>
