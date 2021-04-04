@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Henxun.Cms.Core.Models
 {
     /// <summary>
-    /// yilezhu
+    ///  
     /// 2018.12.12
     /// 数据库中表属性
     /// </summary>

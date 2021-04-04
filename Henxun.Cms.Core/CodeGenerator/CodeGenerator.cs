@@ -13,7 +13,7 @@ using System.Text;
 namespace Henxun.Cms.Core.CodeGenerator
 {
     /// <summary>
-    /// yilezhu
+    ///  
     /// 2018.12.12
     /// 代码生成器。参考自：Zxw.Framework.NetCore
     /// <remarks>

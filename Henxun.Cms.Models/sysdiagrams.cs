@@ -24,7 +24,7 @@
 /**
 *┌──────────────────────────────────────────────────────────────┐
 *│　描    述：1                                                    
-*│　作    者：yilezhu                                              
+*│　作    者：                                               
 *│　版    本：1.0   模板代码自动生成                                              
 *│　创建时间：2021-03-06 12:15:46                            
 *└──────────────────────────────────────────────────────────────┘
@@ -35,16 +35,15 @@
 */
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Henxun.Cms.Models
 {
-	/// <summary>
-	/// yilezhu
-	/// 2021-03-06 12:15:46
-	/// 1
-	/// </summary>
-	public partial class sysdiagrams
+    /// <summary>
+    ///  
+    /// 2021-03-06 12:15:46
+    /// 1
+    /// </summary>
+    public partial class sysdiagrams
 	{
 		/// <summary>
 		///  

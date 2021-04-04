@@ -45,7 +45,7 @@ namespace Henxun.Cms.Admin.Controllers
             else
                 return new JsonResult(new
                 {
-                    code = "-1",
+                    code = "204",
                     msg = "未查询到数据",
                 });
         }

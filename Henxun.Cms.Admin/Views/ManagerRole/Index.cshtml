@@ -45,7 +45,7 @@
                 layer.open({
                     type: 2,
                     content: '/ManagerRole/Add',
-                    area: ['640px','480px'],
+                    area: ['640px', '480px'],
                     shade: 0.8,
                     title: '添加角色',
                     closeBtn: 0,
@@ -75,7 +75,15 @@
                     }, {
                         field: 'isSystem',
                         title: '系统默认',
-                    },  {
+                        align: 'center',
+                        templet: function (d) {
+                            if (d.isSystem == true) {
+                                return '<input type="checkbox" lay-skin="switch" lay-text="是|否" lay-filter="isLock" checked="checked"' + ' value="' + d.id + '"' + '/>'
+                            } else {
+                                return '<input type="checkbox" lay-skin="switch" lay-text="是|否" lay-filter="isLock"' + ' value="' + d.id + '"' + '/>'
+                            }
+                        }
+                    }, {
                         field: 'remark',
                         title: '备注',
                         minWidth: 200
@@ -133,7 +141,8 @@
                                 error: function () {
                                     layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
                                 }
-                            })
+                            });
+                            return false;
                         })
                         break;
                     case 'getCheckData':
@@ -197,7 +206,8 @@
                             error: function () {
                                 layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
                             }
-                        })
+                        });
+                        return false;
                     })
                 }
             }

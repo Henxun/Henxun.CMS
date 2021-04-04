@@ -16,67 +16,64 @@
     <form id="addUser" class="layui-form">
         @Html.AntiForgeryToken()
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.UserName, new { Class = "layui-form-label" })
+            <label for="username" class="layui-form-label">用户名</label>
             <div class="layui-input-block">
-                @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "layui-input" } })
+                <input id="username" name="userName" type="text" class="layui-input" lay-verify="required|userName" />
             </div>
         </div>
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.RoleId, new { Class = "layui-form-label" })
+            <label for="password" class="layui-form-label">密码</label>
             <div class="layui-input-block">
-                @Html.DropDownListFor(m => m.RoleId, roleList)
+                <input id="password" name="password" type="password" class="layui-input" lay-verify="required|password"/>
             </div>
         </div>
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.NickName, new { Class = "layui-form-label" })
+            <label for="rePwd" class="layui-form-label">确认密码</label>
             <div class="layui-input-block">
-                @Html.EditorFor(m => m.NickName, new { Class = "layui-input" })
+                <input id="rePwd" name="rePassword" type="password" class="layui-input" lay-verify="required|rePassword" />
             </div>
         </div>
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.Email, new { Class = "layui-form-label" })
+            <label for="roleId" class="layui-form-label">所属角色</label>
             <div class="layui-input-block">
-                @Html.EditorFor(m => m.Email, new { Class = "layui-input" })
+                <select id="roleId" name="roleId" lay-filter="role">
+                    @foreach (var item in roleList)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
             </div>
         </div>
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.Mobile, new { Class = "layui-form-label" })
+            <label for="nickName" class="layui-form-label">用户昵称</label>
             <div class="layui-input-block">
-                @Html.EditorFor(m => m.Mobile, new { @type = "number", Class = "layui-input" })
+                <input id="nickName" name="nickName" class="layui-input" type="text" />
             </div>
         </div>
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.Remark, new { @class = "layui-form-label" })
+            <label for="email" class="layui-form-label">邮箱</label>
             <div class="layui-input-block">
-                @Html.TextAreaFor(m => m.Remark, new { @placeholder = "请输入内容", @class = "layui-textarea" })
+                <input id="email" type="email" name="email" class="layui-input" lay-verify="required|email"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="mobile" class="layui-form-label">电话</label>
+            <div class="layui-input-block">
+                <input id="mobile" name="mobile" type="tel" class="layui-input" lay-verify="required|phone" />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="remark" class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea id="remark" name="remark" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
         </div>
         <div class="layui-form-item layui-right">
-            <button class="layui-btn" lay-submit lay-filter="addUser">确定</button>
+            <button class="layui-btn" lay-submit lay-filter="add">确定</button>
         </div>
     </form>
     <script type="text/javascript" src="~/layui/layui.js"></script>
-    <script>
-        layui.use(['form','jquery'], function () {
-            var form = layui.form,$=layui.$;
-            form.on('submit(addUser)', function (data) {
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: "/Manager/Post",
-                    data: data.field,
-                    success: function (result) {
-                        layer.msg(result.msg, { icon: 6, area: ['450px', ''], shade: [0.5, '#000', true] });
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);//关闭弹出的子页面窗口
-                        window.parent.location.reload();//写在这里的话是只有提交成功了才刷新那个页面 
-                    },
-                    error: function () {
-                        layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
-                    }
-                })
-            })
-        })
-    </script>
+    <script type="text/javascript" src="~/js/manager/add.js?_=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
+    <script type="text/javascript" src="~/js/verify.js?_=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
 </body>
 </html>

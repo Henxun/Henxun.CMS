@@ -24,7 +24,7 @@
 /**
 *┌──────────────────────────────────────────────────────────────┐
 *│　描    述：后台管理员                                                    
-*│　作    者：yilezhu                                              
+*│　作    者：                                            
 *│　版    本：1.0   模板代码自动生成                                              
 *│　创建时间：2021-03-06 12:15:45                           
 *└──────────────────────────────────────────────────────────────┘
@@ -40,11 +40,12 @@ using System.Threading.Tasks;
 namespace Henxun.Cms.IServices
 {
     public interface IManagerService
-    {/// <summary>
-     /// 根据查询条件获取数据
-     /// </summary>
-     /// <param name="model">查询实体</param>
-     /// <returns>table数据</returns>
+    {
+        /// <summary>
+        /// 根据查询条件获取数据
+        /// </summary>
+        /// <param name="model">查询实体</param>
+        /// <returns>table数据</returns>
         Task<TableDataModel> LoadDataAsync(ManagerRequestModel model);
 
         /// <summary>

@@ -21,6 +21,7 @@ namespace Henxun.Cms.Admin.Profiles
             #region Menu
             CreateMap<MenuAddOrModifyModel, Menu>();
             CreateMap<Menu, MenuNavView>();
+            CreateMap<Menu, MenuListModel>();
             #endregion
 
             #region TaskInfo

@@ -3,7 +3,7 @@
 namespace Henxun.Cms.Core.Models
 {
     /// <summary>
-    /// yilezhu
+    ///  
     /// 2018.12.12
     /// 数据库中列属性
     /// </summary>

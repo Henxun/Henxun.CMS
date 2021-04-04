@@ -1,7 +1,7 @@
 ﻿/**
 *┌──────────────────────────────────────────────────────────────┐
 *│　描    述：                                                    
-*│　作    者：yilezhu                                             
+*│　作    者：                                              
 *│　版    本：1.0                                                 
 *│　创建时间：2018/12/25 10:14:14                             
 *└──────────────────────────────────────────────────────────────┘
@@ -33,7 +33,7 @@ namespace Henxun.Cms.Test
                 options.ConnectionString = "Data Source=.;Initial Catalog=HenxunCms;User ID=sa;Password=xyz99901." +
                 ";Persist Security Info=True;Max Pool Size=50;Min Pool Size=0;Connection Lifetime=300;";
                 options.DbType = DataBaseType.SqlServer.ToString();//数据库类型是SqlServer,其他数据类型参照枚举DatabaseType
-                options.Author = "yilezhu";//作者名称
+                options.Author = " ";//作者名称
                 options.OutputPath = "C:\\HenxunCmsCodeGenerator";//模板代码生成的路径
                 options.ModelsNamespace = "Henxun.Cms.Models";//实体命名空间
                 options.IRepositoryNamespace = "Henxun.Cms.IRepository";//仓储接口命名空间
