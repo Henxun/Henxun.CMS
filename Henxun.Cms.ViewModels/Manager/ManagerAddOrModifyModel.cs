@@ -22,16 +22,6 @@ namespace Henxun.Cms.ViewModels
         public String UserName { get; set; }
 
         /// <summary>
-        /// 密码
-        /// </summary>
-        public string Password { get; set; }
-
-        /// <summary>
-        /// 确认密码
-        /// </summary>
-        public string RePassword { get; set; }
-
-        /// <summary>
         /// 头像
         /// </summary>
         public String Avatar { get; set; }

@@ -13,25 +13,25 @@
     <form id="addUser" class="layui-form">
         @Html.AntiForgeryToken()
         <div class="layui-form-item layui-hide">
-            @Html.LabelFor(m => m.Id, new { Class = "layui-form-label" })
+            <label for="id" class="layui-form-label"></label>
             <div class="layui-input-block">
-                @Html.EditorFor(m => m.Id, new { Class = "layui-input" })
+                <input id="id" name="id" type="number" class="layui-input" lay-verify="required" value="@ViewData.Model.Id" />
             </div>
         </div>
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.RoleName, new { Class = "layui-form-label" })
+            <label for="roleName" class="layui-form-label">角色名称</label>
             <div class="layui-input-block">
-                @Html.EditorFor(m => m.RoleName, new { htmlAttributes = new { @class = "layui-input" } })
+                <input id="roleName" name="roleName" class="layui-input" lay-verify="required" value="@ViewData.Model.RoleName" />
             </div>
         </div>
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.RoleType, new { Class = "layui-form-label" })
+            <label for="roleType" class="layui-form-label">角色类型</label>
             <div class="layui-input-block">
-                @Html.EditorFor(m => m.RoleType, new { htmlAttributes = new { @class = "layui-input" } })
+                <input id="roleType" name="roleType" class="layui-input" lay-verify="required" value="@ViewData.Model.RoleType" />
             </div>
         </div>
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.MenuIds, new { Class = "layui-form-label" })
+            <label class="layui-form-label">菜单列表</label>
             <div class="layui-input-block">
                 @foreach (var item in ViewBag.Menus as IEnumerable<MenuNavView>)
                 {
@@ -48,43 +48,24 @@
             </div>
         </div>
         <div class="layui-form-item">
-            @Html.LabelFor(m => m.IsSystem, new { Class = "layui-form-label" })
+            <label for="isSystem" class="layui-form-label">系统默认</label>
             <cl-switch asp-for="IsSystem" asp-switch-text="是|否"></cl-switch>
         </div>
         <div class="layui-form-item layui-form-text">
-            @Html.LabelFor(m => m.Remark, new { Class = "layui-form-label" })
+            <label for="remark" class="layui-form-label">备注</label>
             <div class="layui-input-block">
-                @Html.TextAreaFor(m => m.Remark, new { @placeholder = "请输入内容", Class = "layui-textarea" })
+                <textarea id="remark" name="remark" class="layui-textarea" maxlength="128">@ViewData.Model.Remark</textarea>
             </div>
         </div>
         <div class="layui-form-item layui-right">
-            <button class="layui-btn" lay-submit lay-filter="addUser">确定</button>
+            <button class="layui-btn" lay-submit lay-filter="confirm">确定</button>
         </div>
     </form>
     <script type="text/javascript" src="~/layui/layui.js"></script>
+    <script type="text/javascript" src="~/js/submit.js?_=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
+    <script type="text/javascript" src="~/js/verify.js?_=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
     <script>
-        layui.use(['form', 'jquery'], function () {
-            var form = layui.form, $ = layui.jquery;
-            form.on('submit(addUser)', function (data) {
-
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: "/ManagerRole/Post",
-                    data: data.field,
-                    success: function (result) {
-                        layer.msg(result.msg, { icon: 6, area: ['450px', ''], shade: [0.5, '#000', true] });
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);//关闭弹出的子页面窗口
-                        window.parent.location.reload();//写在这里的话是只有提交成功了才刷新那个页面
-                    },
-                    error: function () {
-                        layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
-                    }
-                });
-                return false;
-            })
-        })
+        registerSubmit('ManagerRole')
     </script>
 </body>
 </html>

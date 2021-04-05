@@ -70,7 +70,7 @@ namespace Henxun.Cms.Services
             {
                 //TODO ADD
                 manager = _mapper.Map<Manager>(item);
-                manager.Password = AESEncryptHelper.Encode(item.Password, HenxunCmsKeys.AesEncryptKeys);
+                manager.Password = AESEncryptHelper.Encode(HenxunCmsKeys.DefaultPassword, HenxunCmsKeys.AesEncryptKeys);
                 manager.LoginCount = 0;
                 manager.AddManagerId = 1;
                 manager.IsDelete = false;
@@ -95,15 +95,23 @@ namespace Henxun.Cms.Services
                     _mapper.Map(item, manager);
                     manager.ModifyManagerId = 1;
                     manager.ModifyTime = DateTime.Now;
-                    if (_repository.Update(manager) > 0)
+                    try
                     {
-                        result.ResultCode = ResultCodeAddMsgKeys.CommonObjectSuccessCode;
-                        result.ResultMsg = ResultCodeAddMsgKeys.CommonObjectSuccessMsg;
+                        if (_repository.Update(manager) > 0)
+                        {
+                            result.ResultCode = ResultCodeAddMsgKeys.CommonObjectSuccessCode;
+                            result.ResultMsg = ResultCodeAddMsgKeys.CommonObjectSuccessMsg;
+                        }
+                        else
+                        {
+                            result.ResultCode = ResultCodeAddMsgKeys.CommonExceptionCode;
+                            result.ResultMsg = ResultCodeAddMsgKeys.CommonExceptionMsg;
+                        }
                     }
-                    else
+                    catch (Exception)
                     {
-                        result.ResultCode = ResultCodeAddMsgKeys.CommonExceptionCode;
-                        result.ResultMsg = ResultCodeAddMsgKeys.CommonExceptionMsg;
+
+                        throw;
                     }
                 }
                 else

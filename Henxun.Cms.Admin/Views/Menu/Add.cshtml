@@ -51,32 +51,13 @@
             <cl-switch asp-for="IsSystem" asp-switch-text="是|否"></cl-switch>
         </div>
         <div class="layui-form-item layui-right">
-            <button class="layui-btn" lay-submit lay-filter="add">确定</button>
+            <button class="layui-btn" lay-submit lay-filter="confirm">确定</button>
         </div>
     </form>
     <script type="text/javascript" src="~/layui/layui.js"></script>
+    <script type="text/javascript" src="~/js/submit.js?_=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
     <script>
-        layui.use(['form', 'jquery'], function () {
-            var form = layui.form, $ = layui.$;
-            form.on('submit(add)', function (data) {
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    url: "/Menu/Post",
-                    data: data.field,
-                    success: function (result) {
-                        layer.msg(result.msg, { icon: 6, area: ['450px', ''], shade: [0.5, '#000', true] });
-                        var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);//关闭弹出的子页面窗口
-                        window.parent.location.reload();//写在这里的话是只有提交成功了才刷新那个页面
-                    },
-                    error: function () {
-                        layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
-                    }
-                });
-                return false;
-            })
-        })
+        registerSubmit('Menu');
     </script>
 </body>
 </html>

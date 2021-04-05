@@ -30,7 +30,7 @@
         </div>
     </div>
     <div style="margin:0 20px">
-        <table id="usersTable" class="layui-hide" lay-filter="table" data-id="usersTable">
+        <table id="table" class="layui-hide" lay-filter="table" data-id="table">
         </table>
     </div>
     <script src="https://www.layuicdn.com/layui/layui.js"></script>
@@ -58,7 +58,7 @@
             });
 
             var tableInstance = table.render({
-                elem: '#usersTable',
+                elem: '#table',
                 url: '/ManagerRole/Get/',
                 cols: [
                     [{
@@ -123,27 +123,8 @@
                         })
                         break;
                     case 'delete':
-                        layer.confirm('是否删除？', { icon: 3, title: '提示' }, function (index) {
-                            var ids = [data.id];
-                            $.ajax({
-                                type: "post",
-                                datatype: 'json',
-                                url: "/ManagerRole/Delete",
-                                traditional: true,
-                                data: { ids },
-                                success: function (result) {
-                                    //layer.msg(result.msg, { icon: 6, area: ['450px', ''], shade: [0.5, '#000', true] });
-                                    //var index = parent.layer.getFrameIndex(window.name);
-                                    //parent.layer.close(index);//关闭弹出的子页面窗口
-                                    window.location.reload();//写在这里的话是只有提交成功了才刷新那个页面
-                                    layer.close(index);
-                                },
-                                error: function () {
-                                    layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
-                                }
-                            });
-                            return false;
-                        })
+                        var ids = [data.id];
+                        deleteData(ids);
                         break;
                     case 'getCheckData':
                         var checkStatus = table.checkStatus(obj.config.id);
@@ -152,25 +133,6 @@
                         break;
                 }
             })
-
-            //form.on('switch(isLock)', function (obj) {
-            //    console.log(this.value + obj.elem.checked)
-            //    $.ajax({
-            //        type: "post",
-            //        datatype: 'json',
-            //        url: "/Manager/ChangeLockStatus?id=" + obj.value + "&status=" + obj.elem.checked,
-            //        success: function (result) {
-            //            //layer.msg(result.msg, { icon: 6, area: ['450px', ''], shade: [0.5, '#000', true] });
-            //            //var index = parent.layer.getFrameIndex(window.name);
-            //            //parent.layer.close(index);//关闭弹出的子页面窗口
-            //            window.location.reload();//写在这里的话是只有提交成功了才刷新那个页面
-            //            layer.close(index);
-            //        },
-            //        error: function () {
-            //            layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
-            //        }
-            //    })
-            //})
 
             $("#search").on('click', function () {
                 let key = document.getElementById('key').value;
@@ -183,39 +145,48 @@
 
             var active = {
                 getCheckData: function () {
-                    var checkStatus = table.checkStatus('usersTable'),
+                    var checkStatus = table.checkStatus('table'),
                         data = checkStatus.data;
                     let ids = [];
                     data.forEach(e => {
                         ids.push(e.id);
                     })
-                    layer.confirm('是否删除？', { icon: 3, title: '提示' }, function (index) {
-                        $.ajax({
-                            type: "post",
-                            datatype: 'json',
-                            url: "/ManagerRole/Delete",
-                            traditional: true,
-                            data: { ids },
-                            success: function (result) {
-                                //layer.msg(result.msg, { icon: 6, area: ['450px', ''], shade: [0.5, '#000', true] });
-                                //var index = parent.layer.getFrameIndex(window.name);
-                                //parent.layer.close(index);//关闭弹出的子页面窗口
-                                window.location.reload();//写在这里的话是只有提交成功了才刷新那个页面
-                                layer.close(index);
-                            },
-                            error: function () {
-                                layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
-                            }
-                        });
-                        return false;
-                    })
+                    deleteData(ids);
                 }
             }
             $('#delete').on('click', function () {
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
-            })
-        })
+            });
+
+
+            function deleteData(ids) {
+                if (ids.length < 1)
+                    return;
+                layer.confirm('是否删除？', { icon: 3, title: '提示' }, function (index) {
+                    $.ajax({
+                        type: "post",
+                        datatype: 'json',
+                        url: "/ManagerRole/Delete",
+                        traditional: true,
+                        data: { ids },
+                        success: function (result) {
+                            layer.msg(result.resultMsg, { icon: 6, area: ['450px', ''], shade: [0.5, '#000', true] });
+                            //var index = parent.layer.getFrameIndex(window.name);
+                            //parent.layer.close(index);//关闭弹出的子页面窗口
+                            //window.location.reload();//写在这里的话是只有提交成功了才刷新那个页面
+                            table.reload('table')
+                            layer.close(index);
+                        },
+                        error: function () {
+                            layer.msg(result.resultMsg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
+                        }
+                    });
+                    return false;
+                })
+            }
+
+        });
     </script>
 </body>
 </html>

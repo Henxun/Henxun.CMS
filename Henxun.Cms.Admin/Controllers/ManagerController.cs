@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Henxun.Cms.IServices;
 using Henxun.Cms.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -48,6 +49,7 @@ namespace Henxun.Cms.Admin.Controllers
                 });
         }
 
+        [Authorize(Roles = "超级管理员")]
         public IActionResult Add()
         {
             ViewBag.RoleList = Roles;
@@ -56,12 +58,8 @@ namespace Henxun.Cms.Admin.Controllers
 
         public async Task<IActionResult> Post(ManagerAddOrModifyModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await managerService.AddOrModifyAsync(model);
-                return new JsonResult(result);
-            }
-            return View(model);
+            var result = await managerService.AddOrModifyAsync(model);
+            return new JsonResult(result);
         }
 
         public IActionResult Edit(string data)
@@ -92,11 +90,6 @@ namespace Henxun.Cms.Admin.Controllers
         {
             var res = await managerService.ChangeLockStatusAsync(new ChangeStatusModel { Id= id,Status = status});
             return new JsonResult(res);
-        }
-
-        public IActionResult RoleManagement()
-        {
-            return View();
         }
     }
 }

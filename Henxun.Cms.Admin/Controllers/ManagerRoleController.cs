@@ -58,12 +58,8 @@ namespace Henxun.Cms.Admin.Controllers
 
         public IActionResult Post(ManagerRoleAddOrModifyModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = managerRoleService.AddOrModify(model);
-                return new JsonResult(result);
-            }
-            return View(model);
+            var result = managerRoleService.AddOrModify(model);
+            return new JsonResult(result);
         }
 
         public IActionResult Edit(string data)
