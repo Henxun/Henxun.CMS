@@ -158,10 +158,17 @@ namespace Henxun.Cms.Services
             string conditions = "where IsDelete=0 ";//未删除的
             if (!string.IsNullOrWhiteSpace(model.Key))
             {
-                //conditions += $"and (UserName like '%@Key%' or NickName like '%@Key%' or Remark like '%@Key%' or Mobile like '%@Key%' or Email like '%@Key%')";
-                conditions += $"and (UserName like '%{model.Key}%' or NickName like '%{model.Key}%'  or Remark like '%{model.Key}%'  or Mobile like '%{model.Key}%'  or Email like '%{model.Key}%' )";
+                conditions += $"and (UserName like @Key or NickName like @Key or Remark like @Key or Mobile like @Key or Email like @Key)";
             }
-            var list = (await _repository.GetListPagedAsync(model.Page, model.Limit, conditions, "Id desc", model)).ToList();
+            var para = new
+            {
+                Key = $"%{model.Key}%",
+                NickName = $"%{model.Key}%",
+                Remark = $"%{model.Key}%",
+                Mobile = $"%{model.Key}%",
+                Email = $"%{model.Key}%"
+            };
+            var list = (await _repository.GetListPagedAsync(model.Page, model.Limit, conditions, "Id desc", para)).ToList();
             var viewList = new List<ManagerListModel>();
 
             list?.ForEach(x =>
@@ -174,7 +181,7 @@ namespace Henxun.Cms.Services
             return new TableDataModel
             {
                 code = 200,
-                count = await _repository.RecordCountAsync(conditions),
+                count = await _repository.RecordCountAsync(conditions, para),
                 data = viewList,
             };
         }

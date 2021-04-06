@@ -172,16 +172,18 @@ namespace Henxun.Cms.Services
         public TableDataModel LoadData(ManagerRoleRequestModel model)
         {
             string conditions = "where IsDelete=0 ";//未删除的
+            string like = string.Empty;
             if (!string.IsNullOrWhiteSpace(model.Key))
             {
-                conditions += $"and RoleName like '%@Key%'";
+                conditions += "and RoleName like '@Key'";
+                like = "%" + model.Key + "%";
             }
             return new TableDataModel
             {
-                count = _repository.RecordCount(conditions),
+                count = _repository.RecordCount(conditions, new { Key = like }),
                 data = _repository.GetListPaged(model.Page, model.Limit, conditions, "Id desc", new
                 {
-                    Key = model.Key,
+                    Key = like,
                 }),
             };
         }

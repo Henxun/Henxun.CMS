@@ -246,15 +246,16 @@ namespace Henxun.Cms.Services
             string conditions = "where IsDelete=0 ";//未删除的
             if (!string.IsNullOrWhiteSpace(model.Key))
             {
-                conditions += $"and DisplayName like '%@Key%'";
+                conditions += $"and DisplayName like @Key";
             }
+            var para = new
+            {
+                Key = $"%{model.Key}%"
+            };
             return new TableDataModel
             {
-                count = _repository.RecordCount(conditions),
-                data = _repository.GetListPaged(model.Page, model.Limit, conditions, "Id desc", new
-                {
-                    Key = model.Key,
-                }),
+                count = _repository.RecordCount(conditions,para),
+                data = _repository.GetListPaged(model.Page, model.Limit, conditions, "Id desc", para),
             };
         }
 
@@ -263,12 +264,13 @@ namespace Henxun.Cms.Services
             string conditions = "where IsDelete=0 ";//未删除的
             if (!string.IsNullOrWhiteSpace(model.Key))
             {
-                conditions += $"and DisplayName like '%@Key%'";
+                conditions += $"and DisplayName like @Key";
             }
-            var list = (await _repository.GetListPagedAsync(model.Page, model.Limit, conditions, "Id desc", new
+            var para = new
             {
-                Key = model.Key,
-            })).ToList();
+                Key = $"%{model.Key}%"
+            };
+            var list = (await _repository.GetListPagedAsync(model.Page, model.Limit, conditions, "Id desc", para)).ToList();
 
             var viewList = new List<MenuListModel>();
             list?.ForEach(m =>
@@ -278,7 +280,7 @@ namespace Henxun.Cms.Services
             });
             return new TableDataModel
             {
-                count = await _repository.RecordCountAsync(conditions),
+                count = await _repository.RecordCountAsync(conditions, para),
                 data = viewList,
             };
         }
