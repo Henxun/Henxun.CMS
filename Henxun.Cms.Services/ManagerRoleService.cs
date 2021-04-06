@@ -191,7 +191,7 @@ namespace Henxun.Cms.Services
             var menuList = _repository.GetMenusByRoleId(roleId);
             if (menuList?.Count() == 0)
             {
-                return null;
+                return new List<MenuNavView>();
             }
             var menuNavViewList = new List<MenuNavView>();
             menuList.ForEach(x =>

@@ -1,4 +1,5 @@
-﻿using Henxun.Cms.IServices;
+﻿using Henxun.Cms.Admin.Validations;
+using Henxun.Cms.IServices;
 using Henxun.Cms.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -56,9 +57,20 @@ namespace Henxun.Cms.Admin.Controllers
             return View();
         }
 
-        public IActionResult Post(ManagerRoleAddOrModifyModel model)
+        public async Task<IActionResult> Post(ManagerRoleAddOrModifyModel model)
         {
-            var result = managerRoleService.AddOrModify(model);
+            var result = new BaseResult();
+            var validation = new ManagerRoleValidation();
+            var validateResult = await validation.ValidateAsync(model);
+            if(validateResult.IsValid)
+            {
+                result = managerRoleService.AddOrModify(model);
+            }
+            else
+            {
+                result.ResultCode = ResultCodeAddMsgKeys.CommonModelStateInvalidCode;
+                result.ResultMsg = ResultCodeAddMsgKeys.CommonModelStateInvalidMsg;
+            }
             return new JsonResult(result);
         }
 

@@ -1,8 +1,14 @@
-﻿using FluentValidation.AspNetCore;
+﻿using Autofac;
+using FluentValidation.AspNetCore;
 using Henxun.Cms.Admin.Filter;
+using Henxun.Cms.Admin.Filter.Policy;
 using Henxun.Cms.Admin.Validations;
 using Henxun.Cms.Core.Options;
+using Henxun.Cms.Quartz;
+using Henxun.Cms.Repository.SqlServer;
+using Henxun.Cms.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,12 +18,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
-using Henxun.Cms.Quartz;
-using Autofac;
-using Henxun.Cms.Repository.SqlServer;
-using Microsoft.Extensions.Logging;
-using Henxun.Cms.Services;
-using System.IO;
 
 namespace Henxun.Cms.Admin
 {
@@ -55,7 +55,7 @@ namespace Henxun.Cms.Admin
 
             services.AddCors(option =>
             {
-                option.AddPolicy("111", builder =>
+                option.AddPolicy("anyCor", builder =>
                 {
                     builder.AllowAnyOrigin();
                     builder.AllowAnyHeader();
@@ -71,6 +71,14 @@ namespace Henxun.Cms.Admin
                options.LogoutPath = "/Account/Logout";
                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
            });
+
+            services.AddAuthorization(options => 
+            {
+                options.AddPolicy("admin", builder =>
+                {
+                    builder.AddRequirements(new CustomAuthorizationRequirement("admin"));
+                });
+            });
 
             services.AddSession(options =>
             {
@@ -105,12 +113,12 @@ namespace Henxun.Cms.Admin
             {
                 option.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "HenxunCms", Version = "v1" });
             });
-
+            services.AddSingleton<IAuthorizationHandler, CustomAuthorizationHandler>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -121,6 +129,8 @@ namespace Henxun.Cms.Admin
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            app.UseCors("anyCor");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
@@ -128,9 +138,9 @@ namespace Henxun.Cms.Admin
 
             app.UseRouting();
 
-            app.UseCors("111");
-
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "default", template: "{controller=Account}/{action=Index}/{id?}");
@@ -142,7 +152,6 @@ namespace Henxun.Cms.Admin
             {
                 option.SwaggerEndpoint("v1/swagger.json", "HenxunCmsApi");
             });
-
         }
     }
 }

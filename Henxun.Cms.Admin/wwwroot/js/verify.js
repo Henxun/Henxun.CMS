@@ -38,6 +38,11 @@
             if ($('input[name=password]').val() != value) {
                 return '两次密码输入不一致';
             }
+        },
+        newPasswordRe: function (value, item) {
+            if ($('input[name=newPasswordRe]').val() != value) {
+                return '两次密码输入不一致';
+            }
         }
     });
 })
