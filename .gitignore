@@ -349,3 +349,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /Henxun.Cms.Admin/logfiles/internal-nlog.txt
+/Henxun.Cms.Admin/wwwroot/upload/20210406/202104061618319613905.png
+/Henxun.Cms.Admin/wwwroot/upload/20210406/202104061622415546588.jpg

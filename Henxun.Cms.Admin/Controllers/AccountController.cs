@@ -109,6 +109,7 @@ namespace Henxun.Cms.Admin.Controllers
                     new Claim(ClaimTypes.Role, manager.RoleId.ToString()),
 
                     new Claim("Id",manager.Id.ToString()),
+                    new Claim("NickName",manager.NickName),
                     new Claim("LoginCount",manager.LoginCount.ToString()),
                     new Claim("LoginLastIp",manager.LoginLastIp),
                     new Claim("LoginLastTime",manager.LoginLastTime?.ToString("yyyy-MM-dd HH:mm:ss")),

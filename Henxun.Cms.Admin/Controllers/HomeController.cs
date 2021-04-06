@@ -1,19 +1,19 @@
 ﻿using Henxun.Cms.Admin.Models;
 using Henxun.Cms.Core.Extensions;
 using Henxun.Cms.Core.Helper;
+using Henxun.Cms.Core.Models;
 using Henxun.Cms.IServices;
 using Henxun.Cms.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace Henxun.Cms.Admin.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IManagerService _managerService;
@@ -33,13 +33,13 @@ namespace Henxun.Cms.Admin.Controllers
         /// 主界面
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public IActionResult Index()
         {
             ViewData["NickName"] = _httpContextAccessor.HttpContext.Session.GetString("NickName");
             ViewData["Avatar"] = _httpContextAccessor.HttpContext.Session.GetString("Avatar");
             var role = _httpContextAccessor.HttpContext.Session.GetInt32("RoleId");
-            if(role.HasValue)
-                ViewData["Menus"] = _managerRoleService.GetMenusByRoleId(role.Value);
+            ViewData["Menus"] = role.HasValue ? _managerRoleService.GetMenusByRoleId(role.Value).GenerateTree(x => x.Id, x => x.ParentId): new List<TreeItem<MenuNavView>>();
             return View();
         }
 
@@ -58,8 +58,8 @@ namespace Henxun.Cms.Admin.Controllers
 
         public string GetMenu()
         {
-            var roleId = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
-            var navViewTree = _managerRoleService.GetMenusByRoleId(Int32.Parse(roleId)).GenerateTree(x => x.Id, x => x.ParentId);
+            var roleId = HttpContext.Session.GetInt32("RoleId");
+            var navViewTree = _managerRoleService.GetMenusByRoleId(roleId.Value).GenerateTree(x => x.Id, x => x.ParentId);
             return JsonHelper.ObjectToJSON(navViewTree);
         }
 

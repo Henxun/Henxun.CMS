@@ -154,8 +154,8 @@
                         }
                         layer.close(index);
                     },
-                    error: function () {
-                        layer.msg(result.msg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
+                    error: function (err) {
+                        layer.msg(err.responseText, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
                     }
                 });
                 return false;
@@ -204,8 +204,8 @@
                             table.reload('table')
                             layer.close(index);
                         },
-                        error: function () {
-                            layer.msg(result.resultMsg, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
+                        error: function (err) {
+                            layer.msg(err.responseText, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
                         }
                     });
                     return false;

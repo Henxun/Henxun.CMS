@@ -23,6 +23,7 @@ layui.use(['form', 'layer', 'jquery'], function () {
                 "X-CSRF-TOKEN-yilezhu": $("input[name='AntiforgeryKey_yilezhu']").val()
             },
             success: function (res) {//res为相应体,function为回调函数
+                console.log(res);
                 if (res.ResultCode === 0) {
                     window.location.href = "/Home";
                 } else {
