@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "日志管理";
+}
+
+<table id="table" class="layui-hide" lay-filter="table" data-id="table"></table>
+
+@section Scripts{
+    <script type="text/html" id="toolbar">
+        <div class="layui-inline" style="display:flex;align-items:center">
+            <input id="key" type="text" placeholder="请输入关键字" class="layui-input" style="width:200px" />
+            <button class="layui-btn layui-btn-lg layui-bg-green" lay-event="search" style="margin-left:5px">搜索</button>
+            <button class="layui-btn layui-btn-lg layui-bg-blue" style="margin-left:5px" lay-event="add">添加任务</button>
+            <button class="layui-btn layui-btn-lg layui-bg-red" style="margin-left:5px" lay-event="delete">批量删除</button>
+        </div>
+    </script>
+    <script src="https://www.layuicdn.com/layui/layui.js"></script>
+    <script type="text/javascript" src="~/js/mangerlog/index.js"></script>
+}

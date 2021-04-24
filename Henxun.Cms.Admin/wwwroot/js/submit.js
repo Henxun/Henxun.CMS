@@ -2,6 +2,7 @@
     layui.use(['form', 'jquery'], function () {
         var form = layui.form, $ = layui.$;
         form.on('submit(confirm)', function (data) {
+            console.info(data.field);
             $.ajax({
                 type: "POST",
                 dataType: "json",

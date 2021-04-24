@@ -21,6 +21,10 @@
 //                   佛祖保佑       永不宕机     永无BUG          //
 ////////////////////////////////////////////////////////////////////
 
+
+
+using Henxun.Cms.ViewModels;
+using System.Threading.Tasks;
 /**
 *┌──────────────────────────────────────────────────────────────┐
 *│　描    述：操作日志                                                    
@@ -33,10 +37,11 @@
 *│　接口名称： IManagerLogRepository                                      
 *└──────────────────────────────────────────────────────────────┘
 */
-
 namespace Henxun.Cms.IServices
 {
     public interface IManagerLogService
     {
+
+        Task<TableDataModel> LoadDataAsync(ManagerLogRequestModel model);
     }
 }

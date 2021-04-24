@@ -37,6 +37,9 @@
     <script type="text/javascript" src="~/js/index.js?_=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
     <script type="text/javascript" src="~/js/cache.js?_=@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
     <script src="~/layui/lay/modules/layer.js"></script>
+    <script type="text/html" id="isDisplaySwitch">
+        <input type="checkbox" value="{{d.id}}" lay-skin="switch" lay-text="是|否" lay-filter="isDisplay" {{ d.isDisplay == true ? 'checked' : '' }}>
+    </script>
     <script type="text/javascript">
         layui.use(['element', 'layer', 'jquery', 'table', 'form'], function () {
             let $ = layui.jquery, layer = layui.layer, table = layui.table, form = layui.form;
@@ -84,13 +87,7 @@
                         field: 'isDisplay',
                         title: '是否显示',
                         align: 'center',
-                        templet: function (d) {
-                            if (d.isDisplay == true) {
-                                return '<input type="checkbox" lay-skin="switch" lay-text="是|否" lay-filter="isLock" checked="checked"' + ' value="' + d.id + '"' + '/>'
-                            } else {
-                                return '<input type="checkbox" lay-skin="switch" lay-text="是|否" lay-filter="isLock"' + ' value="' + d.id + '"' + '/>'
-                            }
-                        }
+                        templet: '#isDisplaySwitch'
                     }, {
                         field: 'isSystem',
                         title: '系统默认',
@@ -218,7 +215,30 @@
                     });
                     return false;
                 })
-            }
+            };
+
+            form.on('switch(isDisplay)', function (obj) {
+                console.log(obj);
+                $.ajax({
+                    type: "post",
+                    datatype: 'json',
+                    url: '/Menu/ChangeIsDisplay',
+                    data: { id: obj.value, status: obj.elem.checked },
+                    success: function (result) {
+                        layer.msg(result.resultMsg, { icon: 6, area: ['450px', ''], shade: [0.5, '#000', true] });
+                        //var index = parent.layer.getFrameIndex(window.name);
+                        //parent.layer.close(index);//关闭弹出的子页面窗口
+                        if (result.resultCode === 0) {
+                            window.location.reload();//写在这里的话是只有提交成功了才刷新那个页面
+                        }
+                        layer.close(index);
+                    },
+                    error: function (err) {
+                        layer.msg(err.responseText, { icon: 2, area: ['450px', ''], shade: [0.5, '#000', true] });
+                    }
+                });
+                return false;
+            })
         })
     </script>
 </body>

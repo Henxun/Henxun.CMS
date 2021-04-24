@@ -13,12 +13,14 @@ namespace Henxun.Cms.Admin.Controllers
     public class ManagerRoleController : Controller
     {
         private readonly IManagerRoleService managerRoleService;
+        private readonly IMenuService menuService;
         private readonly IHttpContextAccessor httpContextAccessor;
 
         private IEnumerable<MenuNavView> Menus { get; set; }
-        public ManagerRoleController(IManagerRoleService managerRoleService, IHttpContextAccessor httpContextAccessor)
+        public ManagerRoleController(IManagerRoleService managerRoleService, IMenuService menuService, IHttpContextAccessor httpContextAccessor)
         {
             this.managerRoleService = managerRoleService;
+            this.menuService = menuService;
             this.httpContextAccessor = httpContextAccessor;
             var roleId = httpContextAccessor.HttpContext.Session.GetInt32("RoleId");
             Menus = roleId.HasValue ? managerRoleService.GetMenusByRoleId(roleId.Value): new List<MenuNavView>();
@@ -57,7 +59,8 @@ namespace Henxun.Cms.Admin.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Post(ManagerRoleAddOrModifyModel model)
+        [HttpPost]
+        public async Task<IActionResult> Post([FromForm]ManagerRoleAddOrModifyModel model)
         {
             var result = new BaseResult();
             var validation = new ManagerRoleValidation();
@@ -76,7 +79,9 @@ namespace Henxun.Cms.Admin.Controllers
 
         public IActionResult Edit(string data)
         {
-            ViewBag.Menus = Menus;
+            ViewBag.Menus = menuService.GetListByCondition(new MenuRequestModel() { 
+                Condition = " IsDisplay=1"
+            });
             string json = System.Web.HttpUtility.HtmlDecode(data);
             var model = JsonConvert.DeserializeObject<ManagerRoleAddOrModifyModel>(json);
             model.MenuIds = managerRoleService.GetMenusByRoleId(model.Id).Select(s => s.Id).ToArray();

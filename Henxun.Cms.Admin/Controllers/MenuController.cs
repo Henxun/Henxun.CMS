@@ -69,5 +69,16 @@ namespace Henxun.Cms.Admin.Controllers
             var res = await menuService.DeleteAsync(ids);
             return new JsonResult(res);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeIsDisplay(int id, bool status)
+        {
+            var res = await menuService.ChangeIsDisplayAsync(new ChangeStatusModel
+            {
+                Id = id,
+                Status = status
+            });
+            return new JsonResult(res);
+        }
     }
 }

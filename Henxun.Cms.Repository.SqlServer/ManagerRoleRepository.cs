@@ -194,7 +194,7 @@ VALUES   (@RoleId,@MenuId, '')";
                 m.AddManagerId, m.AddTime, m.ModifyManagerId, m.ModifyTime, m.IsDelete
 FROM      RolePermission AS rp INNER JOIN
                 Menu AS m ON rp.MenuId = m.Id
-WHERE   (rp.RoleId = @RoleId) AND (m.IsDelete = 0)";
+WHERE   (rp.RoleId = @RoleId) AND (m.IsDelete = 0) AND m.IsDisplay=1";
             return _dbConnection.Query<Menu>(sql, new
             {
                 RoleId = roleId,

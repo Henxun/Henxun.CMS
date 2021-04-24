@@ -61,8 +61,8 @@ layui.define(["element","jquery"],function(exports){
                     ulHtml += '<a data-url="' + data[i].Item.LinkUrl + '" target="' + data[i].Item.Target+'">';
                 }else{
                     ulHtml += '<a data-url="' + data[i].Item.LinkUrl+'">';
-                }
-                if(data[i].Item.IconUrl !== undefined && data[i].Item.IconUrl !== ''){
+				}
+				if (data[i].Item.IconUrl !== undefined && data[i].Item.IconUrl !== null && data[i].Item.IconUrl !== '') {
                     if(data[i].Item.IconUrl.indexOf("icon-") !== -1){
                         ulHtml += '<i class="seraph '+data[i].Item.IconUrl+'" data-icon="'+data[i].Item.IconUrl+'"></i>';
                     }else{

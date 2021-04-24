@@ -10,5 +10,6 @@ namespace Henxun.Cms.ViewModels
 {
     public class MenuRequestModel : PageModel
     {
+        public string Condition { get; set; }
     }
 }

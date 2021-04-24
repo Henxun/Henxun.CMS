@@ -1,5 +1,5 @@
 ﻿@addTagHelper *,Henxun.Cms.Admin
-@using Henxun.Cms.ViewModels
+@using Henxun.Cms.Models
 @model Henxun.Cms.ViewModels.ManagerRoleAddOrModifyModel
 @{
     Layout = null;
@@ -33,15 +33,15 @@
         <div class="layui-form-item">
             <label class="layui-form-label">菜单列表</label>
             <div class="layui-input-block">
-                @foreach (var item in ViewBag.Menus as IEnumerable<MenuNavView>)
+                @foreach (var item in ViewBag.Menus as IEnumerable<Menu>)
                 {
                     @if (ViewData.Model.MenuIds != null && ViewData.Model.MenuIds.Contains(item.Id))
                     {
-                        <input type="checkbox" name="menuids[]" title="@item.DisplayName" value="@item.Id" checked />
+                        <input type="checkbox" id="@item.Id" name="menuIds[]" title="@item.DisplayName" value="@item.Id" checked />
                     }
                     else
                     {
-                        <input type="checkbox" name="menuids[]" title="@item.DisplayName" value="@item.Id" />
+                        <input type="checkbox" id="@item.Id" name="menuIds[]" title="@item.DisplayName" value="@item.Id" />
                     }
 
                 }

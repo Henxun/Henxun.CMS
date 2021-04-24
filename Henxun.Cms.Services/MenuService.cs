@@ -216,11 +216,18 @@ namespace Henxun.Cms.Services
 
         public List<Menu> GetListByCondition(MenuRequestModel model)
         {
-            string conditions = "where IsDelete=0 ";//未删除的
+            string conditions = "where IsDelete=0";//未删除的
+
+            if (!string.IsNullOrEmpty(model.Condition))
+            {
+                conditions += $"and {model.Condition}";
+            }
+
             if (!string.IsNullOrWhiteSpace(model.Key))
             {
-                conditions += $"and DisplayName like '%@Key%'";
+                conditions += $" and DisplayName like '%@Key%'";
             }
+
             return _repository.GetList(conditions, new
             {
                 Key = model.Key,
@@ -283,6 +290,35 @@ namespace Henxun.Cms.Services
                 count = await _repository.RecordCountAsync(conditions, para),
                 data = viewList,
             };
+        }
+
+
+
+        public async Task<BaseResult> ChangeIsDisplayAsync(ChangeStatusModel model)
+        {
+            var result = new BaseResult();
+            var menu = await _repository.GetAsync(model.Id);
+            if(menu.IsDisplay != model.Status)
+            {
+                menu.IsDisplay = model.Status;
+                var count = await _repository.UpdateAsync(menu);
+                if (count > 0)
+                {
+                    result.ResultCode = ResultCodeAddMsgKeys.CommonObjectSuccessCode;
+                    result.ResultMsg = ResultCodeAddMsgKeys.CommonObjectSuccessMsg;
+                }
+                else
+                {
+                    result.ResultCode = ResultCodeAddMsgKeys.CommonExceptionCode;
+                    result.ResultMsg = ResultCodeAddMsgKeys.CommonExceptionMsg;
+                }
+            }
+            else
+            {
+                result.ResultCode = ResultCodeAddMsgKeys.CommonDataStatusChangeCode;
+                result.ResultMsg = ResultCodeAddMsgKeys.CommonDataStatusChangeMsg;
+            }
+            return result;
         }
     }
 }

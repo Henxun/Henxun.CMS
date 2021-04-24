@@ -99,6 +99,8 @@ namespace Henxun.Cms.IServices
         /// <param name="model">查询实体</param>
         /// <returns>table数据</returns>
         Task<List<Menu>> GetListByConditionAsync(MenuRequestModel model);
+
+        Task<BaseResult> ChangeIsDisplayAsync(ChangeStatusModel model);
         #endregion
     }
 }

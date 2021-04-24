@@ -25,6 +25,9 @@
 
 using Henxun.Cms.IRepository;
 using Henxun.Cms.IServices;
+using Henxun.Cms.ViewModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 /**
 *┌──────────────────────────────────────────────────────────────┐
 *│　描    述：定时任务                                                    
@@ -46,6 +49,56 @@ namespace Henxun.Cms.Services
         public TaskInfoService(ITaskInfoRepository repository)
         {
             _repository = repository;
+        }
+
+        public BaseResult AddOrModify(TaskInfoAddOrModifyModel item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<BaseResult> AddOrModifyAsync(TaskInfoAddOrModifyModel item)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public BaseResult Delete(int[] ids)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<BaseResult> DeleteAsync(int[] ids)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<TaskInfo> GetListByCondition(TaskRequestModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<List<TaskInfo>> GetListByConditionAsync(TaskInfoAddOrModifyModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public TableDataModel LoadData(TaskRequestModel model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public async Task<TableDataModel> LoadDataAsync(TaskRequestModel model)
+        {
+            string condition = "";
+
+            if (!string.IsNullOrEmpty(model.Key))
+            {
+                condition += "where Name like @Key";
+            }
+            return new TableDataModel
+            {
+                count = await _repository.RecordCountAsync(condition, new { Key = $"%{model.Key}%" }),
+                data = await _repository.GetListPagedAsync(model.Page, model.Limit, condition, "Id Desc", new { Key = $"%{model.Key}%" })
+            };
         }
     }
 }
